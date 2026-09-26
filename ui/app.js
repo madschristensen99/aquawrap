@@ -220,6 +220,18 @@ async function connect() {
   $("swap-btn").textContent = `Swap 1 WETH → wstETH (${short(account)})`;
   $("swap-btn").disabled = false;
   $("swap-hint").textContent = "Executes onchain: router pushes WETH to the maker's Aqua balance and pulls wstETH to you.";
+  await refreshWalletBalances();
+}
+
+async function refreshWalletBalances() {
+  if (!account) return;
+  const [weth, wsteth] = await Promise.all([
+    publicClient.readContract({ address: CONFIG.weth, abi: erc20Abi, functionName: "balanceOf", args: [account] }),
+    publicClient.readContract({ address: CONFIG.wsteth, abi: erc20Abi, functionName: "balanceOf", args: [account] }),
+  ]);
+  $("wallet-balances").hidden = false;
+  $("wallet-weth").textContent = `${fmt(weth)} WETH`;
+  $("wallet-wsteth").textContent = `${fmt(wsteth)} wstETH`;
 }
 
 async function doSwap() {
@@ -251,7 +263,7 @@ async function doSwap() {
     });
     const receipt = await publicClient.waitForTransactionReceipt({ hash });
     $("swap-hint").textContent = `Swap executed: ${receipt.transactionHash.slice(0, 10)}…${receipt.transactionHash.slice(-8)}`;
-    await loadPosition();
+    await Promise.all([loadPosition(), refreshWalletBalances()]);
   } catch (e) {
     $("swap-hint").textContent = `swap failed: ${e.shortMessage ?? e.message}`;
   } finally {
