@@ -110,7 +110,9 @@ body {
   border: 1px solid var(--card-border);
   border-radius: 16px;
   padding: 22px;
+  transition: border-color 0.2s;
 }
+.card:hover { border-color: #2b3d5c; }
 .card-head {
   display: flex; justify-content: space-between; align-items: center;
   margin-bottom: 18px;
@@ -171,6 +173,11 @@ body {
 }
 .input-wrap input[readonly] { color: var(--text-dim); }
 .input-wrap .unit { font-size: 13px; color: var(--text-dim); font-weight: 600; }
+.input-wrap:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15); }
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
+.btn:focus-visible, .refresh:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .quote-stats { margin: 6px 0 16px; }
 
