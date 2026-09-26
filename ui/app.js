@@ -101,6 +101,16 @@ function setNet(ok, label) {
   $("net-label").textContent = label;
 }
 
+function showError(msg) {
+  const banner = $("error-banner");
+  banner.textContent = msg;
+  banner.hidden = false;
+}
+
+function clearError() {
+  $("error-banner").hidden = true;
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Data loading
 // ─────────────────────────────────────────────────────────────────────────────
@@ -293,7 +303,7 @@ async function init() {
     setInterval(refreshQuote, 12000);
   } catch (e) {
     setNet(false, "error");
-    $("swap-hint").textContent = `init failed: ${e.shortMessage ?? e.message}`;
+    showError(`init failed: ${e.shortMessage ?? e.message}`);
     console.error(e);
   }
 }
