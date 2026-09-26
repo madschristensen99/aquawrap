@@ -67,6 +67,13 @@ body {
 }
 .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--bad); }
 .dot.ok { background: var(--good); box-shadow: 0 0 8px rgba(52, 211, 153, 0.6); }
+.refresh {
+  background: none; border: none; cursor: pointer;
+  color: var(--text-dim); font-size: 16px;
+  padding: 2px 4px; margin-left: 6px;
+  transition: color 0.15s, transform 0.2s;
+}
+.refresh:hover { color: var(--accent); transform: rotate(180deg); }
 
 .grid {
   position: relative; z-index: 1;

@@ -275,9 +275,16 @@ async function doSwap() {
 // ─────────────────────────────────────────────────────────────────────────────
 // Init
 // ─────────────────────────────────────────────────────────────────────────────
+async function refreshAll() {
+  await Promise.all([loadRates(), loadPosition(), loadCompare()]);
+  await refreshQuote();
+  if (account) await refreshWalletBalances();
+}
+
 async function init() {
   $("swap-btn").addEventListener("click", account ? doSwap : connect);
   $("amount").addEventListener("input", refreshQuote);
+  $("refresh-btn").addEventListener("click", refreshAll);
 
   try {
     await Promise.all([loadRates(), loadPosition(), loadCompare()]);
