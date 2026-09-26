@@ -104,6 +104,13 @@ function setNet(ok, label) {
 // ─────────────────────────────────────────────────────────────────────────────
 // Data loading
 // ─────────────────────────────────────────────────────────────────────────────
+let lastUpdated = null;
+
+function stampUpdated() {
+  lastUpdated = new Date();
+  $("rate-updated").textContent = lastUpdated.toLocaleTimeString();
+}
+
 async function loadRates() {
   const [twap, wrap] = await Promise.all([
     publicClient.readContract({ address: CONFIG.twapProvider, abi: rateProviderAbi, functionName: "getRate", args: [CONFIG.weth, CONFIG.wsteth] }),
@@ -113,6 +120,7 @@ async function loadRates() {
   $("rate-wrap").textContent = fmt(wrap);
   $("rate-window").textContent = `${CONFIG.twapWindow / 60} min`;
   $("rate-pool").textContent = short(CONFIG.pool);
+  stampUpdated();
   return twap;
 }
 
