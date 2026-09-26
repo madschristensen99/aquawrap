@@ -1,0 +1,15 @@
+# Foundry
+out/
+cache/
+broadcast/
+
+# Node
+node_modules/
+scripts/deployments.json
+
+# Env
+.env
+.env.local
+
+# OS
+.DS_Store

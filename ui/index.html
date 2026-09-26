@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaWrap — Oracle-Priced Wrapped Asset Liquidity</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="bg-glow"></div>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">◈</div>
+      <div>
+        <h1>AquaWrap</h1>
+        <p class="tagline">Oracle-priced wrapped asset liquidity on 1inch Aqua / SwapVM</p>
+      </div>
+    </div>
+    <div class="net">
+      <span class="dot" id="net-dot"></span>
+      <span id="net-label">connecting…</span>
+    </div>
+  </header>
+
+  <main class="grid">
+    <!-- Live rate -->
+    <section class="card" id="rate-card">
+      <div class="card-head">
+        <h2>Live Oracle Rate</h2>
+        <span class="badge">wstETH / WETH</span>
+      </div>
+      <div class="rate-big">
+        <span id="rate-twap">—</span>
+        <small>Uniswap V3 TWAP (30 min)</small>
+      </div>
+      <div class="rate-row">
+        <span>Wrap rate (stEthPerToken × Chainlink)</span>
+        <span class="mono" id="rate-wrap">—</span>
+      </div>
+      <div class="rate-row">
+        <span>TWAP window</span>
+        <span class="mono" id="rate-window">—</span>
+      </div>
+      <div class="rate-row">
+        <span>Pool</span>
+        <span class="mono addr" id="rate-pool">—</span>
+      </div>
+    </section>
+
+    <!-- Position -->
+    <section class="card" id="position-card">
+      <div class="card-head">
+        <h2>Maker Position</h2>
+        <span class="badge" id="pos-status">—</span>
+      </div>
+      <div class="reserve-row">
+        <span class="token">WETH</span>
+        <span class="mono" id="pos-weth">—</span>
+      </div>
+      <div class="reserve-row">
+        <span class="token">wstETH</span>
+        <span class="mono" id="pos-wsteth">—</span>
+      </div>
+      <div class="divider"></div>
+      <div class="rate-row">
+        <span>Strategy hash</span>
+        <span class="mono addr" id="pos-hash">—</span>
+      </div>
+      <div class="rate-row">
+        <span>Maker</span>
+        <span class="mono addr" id="pos-maker">—</span>
+      </div>
+      <div class="rate-row">
+        <span>LP fee</span>
+        <span class="mono" id="pos-fee">—</span>
+      </div>
+    </section>
+
+    <!-- Swap -->
+    <section class="card" id="swap-card">
+      <div class="card-head">
+        <h2>Swap</h2>
+        <span class="badge" id="swap-dir">WETH → wstETH</span>
+      </div>
+      <div class="field">
+        <label for="amount">You pay</label>
+        <div class="input-wrap">
+          <input id="amount" type="number" min="0" step="0.001" placeholder="0.0" value="1" />
+          <span class="unit">WETH</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>You receive</label>
+        <div class="input-wrap">
+          <input id="output" type="text" readonly placeholder="—" />
+          <span class="unit">wstETH</span>
+        </div>
+      </div>
+      <div class="quote-stats">
+        <div class="rate-row"><span>Oracle rate</span><span class="mono" id="swap-oracle">—</span></div>
+        <div class="rate-row"><span>Effective price</span><span class="mono" id="swap-effective">—</span></div>
+        <div class="rate-row"><span>Slippage</span><span class="mono" id="swap-slippage">—</span></div>
+        <div class="rate-row"><span>Fee</span><span class="mono" id="swap-fee">—</span></div>
+      </div>
+      <button id="swap-btn" class="btn" disabled>Connect wallet</button>
+      <p class="hint" id="swap-hint">Quotes update live on every block.</p>
+    </section>
+
+    <!-- Compare -->
+    <section class="card wide" id="compare-card">
+      <div class="card-head">
+        <h2>OracleSwap vs Plain XYC</h2>
+        <span class="badge">same reserves, live oracle</span>
+      </div>
+      <div class="compare-table">
+        <div class="compare-row head">
+          <span>Strategy</span>
+          <span>Price (wstETH/WETH)</span>
+          <span>Δ vs live rate</span>
+        </div>
+        <div class="compare-row" id="cmp-oracle">
+          <span><b>OracleSwap</b> <small>opcode 0x22</small></span>
+          <span class="mono">—</span>
+          <span class="mono">—</span>
+        </div>
+        <div class="compare-row" id="cmp-xyc">
+          <span><b>XYCSwap</b> <small>opcode 0x11</small></span>
+          <span class="mono">—</span>
+          <span class="mono">—</span>
+        </div>
+      </div>
+      <p class="hint">Both strategies ship with identical reserves. OracleSwap re-anchors to the live rate on every quote; XYC stays stuck at the ship-time reserve ratio.</p>
+    </section>
+  </main>
+
+  <footer>
+    <span>Powered by <a href="https://github.com/1inch/aqua" target="_blank" rel="noopener">1inch Aqua</a> + <a href="https://github.com/1inch/swap-vm" target="_blank" rel="noopener">SwapVM</a></span>
+    <span class="mono">Aqua registry 0x1111…a90a · redeployed router only</span>
+  </footer>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
